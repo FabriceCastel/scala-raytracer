@@ -1,4 +1,5 @@
 target/*
 renders/*
+project/*
 *.class
 *.DS_Store
