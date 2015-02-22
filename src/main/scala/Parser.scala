@@ -9,11 +9,11 @@ import raytracer.RenderParameters._
 class Parser(filename : String){
 	def getScene() : SceneNode = {
 		val scene = new SceneNode("super magical node")
-		return scene
+		scene
 	}
 
 	def getRenderParameters() : RenderParameters = {
 		val params = new RenderParameters(600, 600)
-		return params
+		params
 	}
 }
