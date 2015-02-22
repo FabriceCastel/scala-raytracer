@@ -5,10 +5,13 @@ import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 import java.io.File
 
-import raytracer.SceneNode._
+import raytracer.node.SceneNode._
+import raytracer.node.FlattenedGeometryNode._
 import raytracer.Parser._
+import raytracer.Ray._
 import raytracer.RenderParameters._
 import raytracer.ShadeableIntersection._
+import raytracer.AccelerationStructure._
 
 object Raytracer extends App {
 	val OUTPUT_FOLDER = "renders/"
@@ -19,11 +22,15 @@ object Raytracer extends App {
 	val parser = new Parser("data/dummy_scene_file_name")
 	val scene = parser.getScene()
 	val rp = parser.getRenderParameters()
+	scene.print()
+	val placeholderRay = new Ray(rp.cameraPos, rp.cameraDir)
+
+	val acceleratedScene = new AccelerationStructure(rp.cameraPos, scene.flatten())
 
 	val img = new BufferedImage(rp.width, rp.height, BufferedImage.TYPE_INT_ARGB)
 	
 	for(x <- 0 to rp.width-1; y <- 0 to rp.height-1){
-		val pixelColor = scene.intersect(rp).shadeIntersection()
+		val pixelColor = scene.intersect(rp, placeholderRay).shadeIntersection()
 		img.setRGB(x, y, pixelColor.getRGB())
 	}
 
