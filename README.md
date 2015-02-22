@@ -4,7 +4,7 @@ Once you've installed sbt via ```brew install sbt```, use the ```sbt run``` comm
 
 The Scala implementation will differ from the current C++ implementation as follows:
 
-- Rather than using a SceneNode structure when computing scene intersections, the scene tree will be traversed & converted into a better-suited k-d tree by applying all geometric transformations to the tree leaves so as to make them organizable in a k-d tree
+- Rather than using a SceneNode structure when computing scene intersections, the scene tree will be traversed & converted into a better-suited ~~k-d tree~~ acceleration structure by applying all geometric transformations to the tree leaves so as to make them organizable in ~~a k-d tree~~ an acceleration structure
 
 - The Shader class won't be a hacked together piece of donkey poop
 
@@ -22,7 +22,7 @@ The Scala implementation will differ from the current C++ implementation as foll
 
 - Port SceneNode class (scene.cpp) from the C++ codebase - the intersect() method will need a complete re-write worthy of its own separate task once this is done
 
-- Implement a k-d tree structure to hold flattened GeometryNode objects (refer to the first bullet point under 'overview')
+- Implement ~~a k-d tree~~ an acceleration structure to hold flattened GeometryNode objects (refer to the first bullet point under 'overview' and https://www.cs.utexas.edu/~whunt/papers/hunt-pers.pdf)
 
 - Select scripting language to be used in scene description (C++ version uses Lua) and implement parsing mechanism to constrct a SceneNode object from a given script (see scene_lua.cpp)
 
