@@ -16,9 +16,22 @@ class SceneNode(val name: String, val children: List[SceneNode]){
 	}
 
 	def intersect(params: RenderParameters, ray: Ray): ShadeableIntersection = {
-		val col = new Color(0xfff04ea9)
-		val sinter = new ShadeableIntersection(0, true, () => {col})
-		sinter
+		val col = new Color(0xff000000)
+		val sinter = new ShadeableIntersection(0, false, () => {col})
+		if(children.length > 0){
+			val hit = children.map{e => e.intersect(params, ray)}.reduceLeft {
+				(base, cur) => {
+					if(cur.isValid && (!base.isValid || cur.t < base.t)) cur else base
+				}
+			}
+			if(!hit.isValid){
+				sinter
+			} else {
+				hit
+			}
+		} else {
+			sinter
+		}
 	}
 
 	def addChild(node: SceneNode): SceneNode = {

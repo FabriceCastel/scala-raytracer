@@ -12,6 +12,7 @@ import raytracer.Ray._
 import raytracer.RenderParameters._
 import raytracer.ShadeableIntersection._
 import raytracer.AccelerationStructure._
+import raytracer.Camera._
 
 object Raytracer extends App {
 	val OUTPUT_FOLDER = "renders/"
@@ -23,14 +24,15 @@ object Raytracer extends App {
 	val scene = parser.getScene()
 	val rp = parser.getRenderParameters()
 	scene.print()
-	val placeholderRay = new Ray(rp.cameraPos, rp.cameraDir)
+	
+	val img = new BufferedImage(rp.width, rp.height, BufferedImage.TYPE_INT_ARGB)
 
 	val acceleratedScene = new AccelerationStructure(rp.cameraPos, scene.flatten())
-
-	val img = new BufferedImage(rp.width, rp.height, BufferedImage.TYPE_INT_ARGB)
+	val camera = new Camera()
+	val rays = camera.generateRays(rp.width, rp.height)
 	
 	for(x <- 0 to rp.width-1; y <- 0 to rp.height-1){
-		val pixelColor = scene.intersect(rp, placeholderRay).shadeIntersection()
+		val pixelColor = scene.intersect(rp, rays(x)(y)).shadeIntersection()
 		img.setRGB(x, y, pixelColor.getRGB())
 	}
 
