@@ -12,12 +12,16 @@ import raytracer.Ray._
 
 class GeometryNode(name: String, primitive: Primitive) extends SceneNode(name){
 	override def intersect(params: RenderParameters, ray: Ray): ShadeableIntersection = {
-		val col = new Color(0xfff04ea9)
-		val sinter = new ShadeableIntersection(0, true, () => {
-			val col2 = new Color(0xff0f44f2)
-			col2
-			})
-		sinter
+		val primitiveIntersection = primitive.intersect(ray)
+		if(primitiveIntersection.isValid){
+			val col = new Color(0xfff220b0)
+			val sinter = new ShadeableIntersection(0, true, () => {col})
+			sinter
+		} else {
+			val col = new Color(0xffff0000)
+			val sinter = new ShadeableIntersection(0, false, () => {col})
+			sinter
+		}
 	}
 
 	override def flatten(): List[FlattenedGeometryNode] = {
