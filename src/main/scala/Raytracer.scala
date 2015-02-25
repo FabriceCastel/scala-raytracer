@@ -23,7 +23,7 @@ object Raytracer extends App {
 	val parser = new Parser("data/dummy_scene_file_name")
 	val scene = parser.getScene()
 	val rp = parser.getRenderParameters()
-	scene.print()
+	println(scene.toString)
 	
 	val img = new BufferedImage(rp.width, rp.height, BufferedImage.TYPE_INT_ARGB)
 
