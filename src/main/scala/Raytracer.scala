@@ -22,7 +22,7 @@ object Raytracer extends App {
 	val parser = new Parser("data/dummy_scene_file_name")
 	val scene = parser.getScene()
 	val rp = parser.getRenderParameters()
-	scene.print()
+	println(scene.toString)
 	val placeholderRay = new Ray(rp.cameraPos, rp.cameraDir)
 
 	val acceleratedScene = new AccelerationStructure(rp.cameraPos, scene.flatten())

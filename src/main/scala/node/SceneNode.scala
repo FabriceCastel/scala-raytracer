@@ -32,12 +32,11 @@ class SceneNode(val name: String, val children: List[SceneNode]){
 			{(flatList, curNode) => flatList ::: curNode.flatten()}
 	}
 
-	def print(): Unit = {
-		printNode("")
+	override def toString: String = {
+		genString("")
 	}
 
-	protected def printNode(sp: String): Unit = {
-		println(sp + "-" + name)
-		children.foreach(c => c.printNode(sp + "  "))
+	protected def genString(sp: String): String = {
+		children.foldLeft(sp + "-" + name + "\n")((base, c) => base + c.genString(sp + "  "))
 	}
 }
