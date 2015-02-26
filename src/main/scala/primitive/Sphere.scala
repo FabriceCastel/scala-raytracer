@@ -16,7 +16,7 @@ class Sphere(radius: Double) extends Primitive(){
 		// needs a polynomial solver
 		//
 		val valid = ray.v.x < 0
-		val b = new BasicIntersection(null, null, valid)
+		val b = new BasicIntersection(null, null, 0, null, valid)
 		b
 	}
 
