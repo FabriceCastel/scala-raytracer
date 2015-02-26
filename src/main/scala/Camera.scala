@@ -1,15 +1,13 @@
 package raytracer.Camera
 
-import javax.vecmath.{Vector3d}
-import javax.vecmath.{Point3d}
-
 import scala.math._
 
+import raytracer.vecmath._
 import raytracer.Ray._
 
-class Camera(position: Point3d, direction: Vector3d, up: Vector3d, fov: Double){
+class Camera(position: Point3D, direction: Vector3D, up: Vector3D, fov: Double){
 	def this(){
-		this(new Point3d(0,0,-100), new Vector3d(0,0,1), new Vector3d(0,1,0), 50)
+		this(new Point3D(0,0,-100), new Vector3D(0,0,1), new Vector3D(0,1,0), 50)
 	}
 
 	// ********** TODO *********
@@ -26,7 +24,7 @@ class Camera(position: Point3d, direction: Vector3d, up: Vector3d, fov: Double){
 		var rayGrid = Array.ofDim[Ray](width, height)
 
 		for(x <- 0 to width-1; y <- 0 to height-1){
-			val rdir = new Vector3d(
+			val rdir = new Vector3D(
 				(2.0*x - width)/width * tan(fovx),
 				(-1 * (2.0*y - height)/height) * tan(fovy),
 				1)

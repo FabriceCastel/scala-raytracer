@@ -1,10 +1,9 @@
 package raytracer.RenderParameters
 
-import javax.vecmath.{Vector3d}
-import javax.vecmath.{Point3d}
+import raytracer.vecmath._
 
-class RenderParameters(val width: Int, val height: Int, val cameraPos: Point3d, val cameraDir: Vector3d){
+class RenderParameters(val width: Int, val height: Int, val cameraPos: Point3D, val cameraDir: Vector3D){
 	def this(){
-		this(500, 500, new Point3d(0,0,0), new Vector3d(0,0,1))
+		this(500, 500, new Point3D(0,0,0), new Vector3D(0,0,1))
 	}
 }
