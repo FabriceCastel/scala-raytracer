@@ -11,6 +11,6 @@ abstract class Primitive(){
 	}
 
 	def intersectFast(ray: Ray): Boolean = {
-		false
+		this.intersect(ray).isValid
 	}
 }
