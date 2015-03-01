@@ -30,4 +30,8 @@ class GeometryNode(name: String, primitive: Primitive) extends SceneNode(name){
 		val flatNode = new FlattenedGeometryNode(name, primitive, id)
 		List(flatNode)
 	}
+
+	override def addChild(node: SceneNode): SceneNode = {
+		throw new UnsupportedOperationException("Cannot add child to Geometry Node object")
+	}
 }

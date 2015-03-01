@@ -2,8 +2,9 @@ package raytracer.Parser
 
 import raytracer.node.SceneNode._
 import raytracer.RenderParameters._
-import raytracer.primitive.Sphere._
+import raytracer.primitive.Mesh._
 import raytracer.node.GeometryNode._
+import raytracer.vecmath._
 
 // use this class to parse whichever scripting language/file into
 // a tree of SceneNodes and return its root && render params
@@ -11,9 +12,10 @@ import raytracer.node.GeometryNode._
 class Parser(filename : String){
 	def getScene() : SceneNode = {
 		val scene = new SceneNode("Root Node")
-		val sphere = new Sphere(20.0)
-		val sphereGN = new GeometryNode("Sphere Node", sphere)
-		scene.addChild(sphereGN)
+		val z = -20
+		val tri = new Mesh(List(new Point3D(0,0,z), new Point3D(0,20,z), new Point3D(20,0,z)), List(List(0,1,2)))
+		val GN = new GeometryNode("Tri Node", tri)
+		scene.addChild(GN)
 	}
 
 	def getRenderParameters() : RenderParameters = {
