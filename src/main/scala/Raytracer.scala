@@ -13,6 +13,7 @@ import raytracer.RenderParameters._
 import raytracer.ShadeableIntersection._
 import raytracer.AccelerationStructure._
 import raytracer.Camera._
+import raytracer.vecmath._
 
 object Raytracer extends App {
 	val OUTPUT_FOLDER = "renders/"
@@ -29,15 +30,11 @@ object Raytracer extends App {
 
 	val acceleratedScene = new AccelerationStructure(rp.cameraPos, scene.flatten())
 	val camera = new Camera()
-	val rays = camera.generateRays(rp.width, rp.height)
 	
-	for(x <- 0 to rp.width-1; y <- 0 to rp.height-1){
-		val pixelColor = scene.intersect(rp, rays(x)(y)).shadeIntersection()
-		img.setRGB(x, y, pixelColor.getRGB())
-	}
 
 	val panel = new Panel {
 		override def paint(g : Graphics2D){
+			super.paint(g)
 			g.drawImage(img, 0, 0, null)
 		}
 		preferredSize = new Dimension(rp.width, rp.height)
@@ -52,4 +49,26 @@ object Raytracer extends App {
 	}
 
 	frame.open
+
+	var i = 0.0
+	var lastFrame = System.currentTimeMillis()
+	val spf = 1000 / 30
+	while(true){
+		i += 0.04
+		val origin = new Point3D(0,0,0)
+		val camPos = new Point3D(100 * Math.sin(i),0,100 * Math.cos(i))
+		val camDir = origin - camPos
+		val camUp = new Vector3D(0,1,0)
+		val curCam = new Camera(camPos, camDir, camUp, 50)
+		val rays = curCam.generateRays(rp.width, rp.height)
+		for(x <- 0 to rp.width-1; y <- 0 to rp.height-1){
+			val pixelColor = scene.intersect(rp, rays(x)(y)).shadeIntersection()
+			img.setRGB(x, y, pixelColor.getRGB())
+		}
+		panel.repaint()
+		val newTime = System.currentTimeMillis()
+		val delay = spf - (newTime - lastFrame)
+		if(delay > 0) Thread.sleep(delay)
+		lastFrame = System.currentTimeMillis()
+	}
 }

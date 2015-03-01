@@ -12,8 +12,8 @@ import raytracer.vecmath._
 class Parser(filename : String){
 	def getScene() : SceneNode = {
 		val scene = new SceneNode("Root Node")
-		val z = -20
-		val tri = new Mesh(List(new Point3D(0,0,z), new Point3D(0,20,z), new Point3D(20,0,z)), List(List(0,1,2)))
+		val z = 0
+		val tri = new Mesh(List(new Point3D(0,0,z), new Point3D(0,40,z), new Point3D(40,0,z)), List(List(0,1,2)))
 		val GN = new GeometryNode("Tri Node", tri)
 		scene.addChild(GN)
 	}
