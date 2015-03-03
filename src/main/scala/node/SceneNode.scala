@@ -1,6 +1,6 @@
 package raytracer.node.SceneNode
 
-import java.awt.{Color}
+import raytracer.Colour._
 import raytracer.RenderParameters._
 import raytracer.ShadeableIntersection._
 import raytracer.node.FlattenedGeometryNode._
@@ -16,8 +16,8 @@ class SceneNode(val name: String, val children: List[SceneNode]){
 	}
 
 	def intersect(params: RenderParameters, ray: Ray): ShadeableIntersection = {
-		val col = new Color(0xff000000)
-		val sinter = new ShadeableIntersection(0, false, () => {col})
+		val col = new Colour(0xff000000)
+		val sinter = new ShadeableIntersection(0, false, (s, l) => {col})
 		if(children.length > 0){
 			val hit = children.map{e => e.intersect(params, ray)}.reduceLeft {
 				(base, cur) => {

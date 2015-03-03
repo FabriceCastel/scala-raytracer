@@ -9,6 +9,7 @@ class BasicIntersection(val point: Point3D, val normal: Vector3D, val t: Double,
 		this(point, normal, t, uv, true)
 		require(uv.x >= 0 && uv.y >= 0 && uv.x <= 1 && uv.y <= 1, "UV lies outside of expected range")
 		require(normal.length != 0, "Cannot instantiate a BasicIntersection object with the zero vector")
+		normal.normalize()
 	}
 
 	def this(point: Point3D, normal: Vector3D, t: Double){

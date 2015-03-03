@@ -1,10 +1,10 @@
 import swing._
 import event._
-import java.awt.{Color}
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 import java.io.File
 
+import raytracer.Colour._
 import raytracer.node.SceneNode._
 import raytracer.node.FlattenedGeometryNode._
 import raytracer.Parser._
@@ -14,6 +14,7 @@ import raytracer.ShadeableIntersection._
 import raytracer.AccelerationStructure._
 import raytracer.Camera._
 import raytracer.vecmath._
+import raytracer.Light._
 
 object Raytracer extends App {
 	val OUTPUT_FOLDER = "renders/"
@@ -25,6 +26,8 @@ object Raytracer extends App {
 	val scene = parser.getScene()
 	val rp = parser.getRenderParameters()
 	println(scene.toString)
+
+	val lights = parser.getLights()
 	
 	val img = new BufferedImage(rp.width, rp.height, BufferedImage.TYPE_INT_ARGB)
 
@@ -53,16 +56,16 @@ object Raytracer extends App {
 	var i = 0.0
 	var lastFrame = System.currentTimeMillis()
 	val spf = 1000 / 30
-	while(true){
+	while(frame.showing){
 		i += 0.04
 		val origin = new Point3D(0,0,0)
-		val camPos = new Point3D(100 * Math.sin(i),0,100 * Math.cos(i))
+		val camPos = new Point3D(100 * Math.sin(i),30,100 * Math.cos(i))
 		val camDir = origin - camPos
 		val camUp = new Vector3D(0,1,0)
 		val curCam = new Camera(camPos, camDir, camUp, 50)
 		val rays = curCam.generateRays(rp.width, rp.height)
 		for(x <- 0 to rp.width-1; y <- 0 to rp.height-1){
-			val pixelColor = scene.intersect(rp, rays(x)(y)).shadeIntersection()
+			val pixelColor = scene.intersect(rp, rays(x)(y)).shadeIntersection(acceleratedScene, lights)
 			img.setRGB(x, y, pixelColor.getRGB())
 		}
 		panel.repaint()
