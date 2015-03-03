@@ -1,10 +1,13 @@
 package raytracer.Parser
 
+import java.awt.{Color}
+
 import raytracer.node.SceneNode._
 import raytracer.RenderParameters._
 import raytracer.primitive.Mesh._
 import raytracer.node.GeometryNode._
 import raytracer.vecmath._
+import raytracer.Light._
 
 // use this class to parse whichever scripting language/file into
 // a tree of SceneNodes and return its root && render params
@@ -21,5 +24,9 @@ class Parser(filename : String){
 	def getRenderParameters() : RenderParameters = {
 		val params = new RenderParameters()
 		params
+	}
+
+	def getLights(): List[Light] = {
+		List(new Light(new Color(0xffffffff), new Point3D(120, 0, -20)))
 	}
 }
