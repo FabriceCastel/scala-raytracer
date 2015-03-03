@@ -1,7 +1,6 @@
 package raytracer.Parser
 
-import java.awt.{Color}
-
+import raytracer.Colour._
 import raytracer.node.SceneNode._
 import raytracer.RenderParameters._
 import raytracer.primitive.Mesh._
@@ -27,6 +26,6 @@ class Parser(filename : String){
 	}
 
 	def getLights(): List[Light] = {
-		List(new Light(new Color(0xffffffff), new Point3D(120, 0, -20)))
+		List(new Light(new Colour(0xffffffff), new Point3D(120, 0, -20)))
 	}
 }

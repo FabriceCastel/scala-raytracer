@@ -16,7 +16,7 @@ import raytracer.Light._
 
 class GeometryNode(name: String, primitive: Primitive, mat: Material, shader: Shader) extends SceneNode(name){
 	def this(name: String, primitive: Primitive){
-		this(name, primitive, new Material(new Colour(0xffff3377), new Colour(0xffffffff), 50), new BlinnPhongShader())
+		this(name, primitive, new Material(new Colour(0xff2255ff), new Colour(0xffffffff), 50), new BlinnPhongShader())
 	}
 
 	override def intersect(params: RenderParameters, ray: Ray): ShadeableIntersection = {
