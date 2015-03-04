@@ -29,7 +29,6 @@ class Triangle(vertices: List[Point3D], uv: List[Point2D], hasUV: Boolean) exten
 			val inv_determinant = 1.0/determinant
 			val T = ray.p - vertices(0)
 			val u = (T dot P) * inv_determinant
-  			//The intersection lies outside of the triangle
 			if(u < 0 || u > 1) fail
 			else {
 				val Q = T cross edge1
@@ -39,10 +38,10 @@ class Triangle(vertices: List[Point3D], uv: List[Point2D], hasUV: Boolean) exten
 					val t = (edge2 dot Q) * inv_determinant
 					if(t > Utils.EPSILON){
 						val hit = ray.p + ray.v*t;
-						val d0 = Math.abs((hit - vertices(0)).length)
-						val d1 = Math.abs((hit - vertices(1)).length)
-						val d2 = Math.abs((hit - vertices(2)).length)
 						if(hasUV){
+							val d0 = Math.abs((hit - vertices(0)).length)
+							val d1 = Math.abs((hit - vertices(1)).length)
+							val d2 = Math.abs((hit - vertices(2)).length)
 							val uvAvg = (uv(0)*d0 + uv(1)*d1 + uv(2)*d2) / (d0 + d1 + d2)
 							val bi = new BasicIntersection(hit, edge1 cross edge2, t, uvAvg)
 							bi
