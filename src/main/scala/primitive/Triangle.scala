@@ -43,11 +43,9 @@ class Triangle(vertices: List[Point3D], uv: List[Point2D], hasUV: Boolean) exten
 							val d1 = Math.abs((hit - vertices(1)).length)
 							val d2 = Math.abs((hit - vertices(2)).length)
 							val uvAvg = (uv(0)*d0 + uv(1)*d1 + uv(2)*d2) / (d0 + d1 + d2)
-							val bi = new BasicIntersection(hit, edge1 cross edge2, t, uvAvg)
-							bi
+							new BasicIntersection(hit, edge1 cross edge2, t, uvAvg)
 						} else {
-							val bi = new BasicIntersection(hit, edge1 cross edge2, t)
-							bi
+							new BasicIntersection(hit, edge1 cross edge2, t)
 						}
 					} else {
 						fail
