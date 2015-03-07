@@ -1,10 +1,8 @@
-package raytracer.primitive.Triangle
+package com.fcastel.raytracer.primitive
 
-import raytracer.vecmath._
-import raytracer.Ray._
-import raytracer.BasicIntersection._
-import raytracer.primitive.Primitive._
-import raytracer.Utils._
+import com.fcastel.raytracer.algebra._
+import com.fcastel.raytracer.BasicIntersection
+import com.fcastel.raytracer.utils.Utils
 
 class Triangle(vertices: List[Point3D], uv: List[Point2D], hasUV: Boolean) extends Primitive(){
 	require(vertices.length == 3, "Triangles must have three vertices")
@@ -36,7 +34,8 @@ class Triangle(vertices: List[Point3D], uv: List[Point2D], hasUV: Boolean) exten
 				if(v < 0 || u + v > 1) fail
 				else {
 					val t = (edge2 dot Q) * inv_determinant
-					if(t > Utils.EPSILON){
+					if(t < Utils.EPSILON) fail
+					else {
 						val hit = ray.p + ray.v*t;
 						if(hasUV){
 							val d0 = Math.abs((hit - vertices(0)).length)
@@ -47,8 +46,6 @@ class Triangle(vertices: List[Point3D], uv: List[Point2D], hasUV: Boolean) exten
 						} else {
 							new BasicIntersection(hit, edge1 cross edge2, t)
 						}
-					} else {
-						fail
 					}
 				}
 			}

@@ -1,10 +1,10 @@
-package raytracer.AccelerationStructure
+package com.fcastel.raytracer
 
 import javax.vecmath.{Point3d}
 import java.awt.{Color}
 
-import raytracer.node.FlattenedGeometryNode._
-import raytracer.Ray._
+import com.fcastel.raytracer.node.FlattenedGeometryNode
+import com.fcastel.raytracer.algebra.Ray
 
 class AccelerationStructure(locus: Point3d, scene: List[FlattenedGeometryNode]){
 	def intersect(ray: Ray): Color = {

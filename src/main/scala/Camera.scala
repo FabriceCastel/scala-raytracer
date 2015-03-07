@@ -1,9 +1,9 @@
-package raytracer.Camera
+package com.fcastel.raytracer
 
 import scala.math._
 
-import raytracer.vecmath._
-import raytracer.Ray._
+import com.fcastel.raytracer.algebra._
+import com.fcastel.raytracer.algebra.Ray
 
 class Camera(position: Point3D, direction: Vector3D, up: Vector3D, fov: Double){
 	def this(){

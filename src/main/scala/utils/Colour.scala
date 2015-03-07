@@ -1,4 +1,4 @@
-package raytracer.Colour
+package com.fcastel.raytracer.utils
 
 import java.awt.{Color}
 

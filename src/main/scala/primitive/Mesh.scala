@@ -1,10 +1,8 @@
-package raytracer.primitive.Mesh
+package com.fcastel.raytracer.primitive
 
-import raytracer.vecmath._
-import raytracer.primitive.Primitive._
-import raytracer.BasicIntersection._
-import raytracer.Ray._
-import raytracer.primitive.Triangle._
+import com.fcastel.raytracer.algebra._
+import com.fcastel.raytracer.BasicIntersection
+import com.fcastel.raytracer.algebra.Ray
 
 class Mesh(vertices: List[Point3D], faces: List[List[Int]], UVMapping: List[Point2D], hasUVMapping: Boolean) extends Primitive(){
 	require(faces.foldLeft(true)((base, cur) => base && (cur.length == 3)), "Mesh faces must specify exactly three vectors")

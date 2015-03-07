@@ -1,6 +1,6 @@
-package raytracer.BasicIntersection
+package com.fcastel.raytracer
 
-import raytracer.vecmath._
+import com.fcastel.raytracer.algebra._
 
 // Intersection returned by Primitive subclasses
 

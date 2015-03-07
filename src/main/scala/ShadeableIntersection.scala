@@ -1,8 +1,8 @@
-package raytracer.ShadeableIntersection
+package com.fcastel.raytracer
 
-import raytracer.Colour._
-import raytracer.AccelerationStructure._
-import raytracer.Light._
+import com.fcastel.raytracer.utils.Colour
+import com.fcastel.raytracer.AccelerationStructure
+import com.fcastel.raytracer.Light
 
 // Intersection returned by GeometryNode && its subclasses
 

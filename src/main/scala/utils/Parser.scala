@@ -1,12 +1,11 @@
-package raytracer.Parser
+package com.fcastel.raytracer.utils
 
-import raytracer.Colour._
-import raytracer.node.SceneNode._
-import raytracer.RenderParameters._
-import raytracer.primitive.Mesh._
-import raytracer.node.GeometryNode._
-import raytracer.vecmath._
-import raytracer.Light._
+import com.fcastel.raytracer.node.SceneNode
+import com.fcastel.raytracer.RenderParameters
+import com.fcastel.raytracer.primitive.Mesh
+import com.fcastel.raytracer.node.GeometryNode
+import com.fcastel.raytracer.algebra._
+import com.fcastel.raytracer.Light
 
 // use this class to parse whichever scripting language/file into
 // a tree of SceneNodes and return its root && render params

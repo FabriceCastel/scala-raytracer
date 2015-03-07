@@ -1,11 +1,8 @@
-package raytracer.primitive.Sphere
+package com.fcastel.raytracer.primitive
 
-import javax.vecmath.{Point3d}
-import javax.vecmath.{Vector3d}
-
-import raytracer.primitive.Primitive._
-import raytracer.BasicIntersection._
-import raytracer.Ray._
+import com.fcastel.raytracer.algebra._
+import com.fcastel.raytracer.BasicIntersection
+import com.fcastel.raytracer.algebra.Ray
 
 class Sphere(radius: Double) extends Primitive(){
 	override def intersect(ray: Ray): BasicIntersection = {

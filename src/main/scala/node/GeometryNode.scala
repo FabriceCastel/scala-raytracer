@@ -1,18 +1,16 @@
-package raytracer.node.GeometryNode
+package com.fcastel.raytracer.node
 
-import raytracer.Colour._
-import raytracer.node.SceneNode._
-import raytracer.primitive.Primitive._
-import raytracer.RenderParameters._
-import raytracer.ShadeableIntersection._
-import raytracer.node.FlattenedGeometryNode._
-import raytracer.Ray._
-import raytracer.vecmath._
-import raytracer.Material._
-import raytracer.shader.Shader._
-import raytracer.shader.BlinnPhongShader._
-import raytracer.AccelerationStructure._
-import raytracer.Light._
+import com.fcastel.raytracer.utils.Colour
+import com.fcastel.raytracer.primitive.Primitive
+import com.fcastel.raytracer.RenderParameters
+import com.fcastel.raytracer.ShadeableIntersection
+import com.fcastel.raytracer.algebra.Ray
+import com.fcastel.raytracer.algebra._
+import com.fcastel.raytracer.Material
+import com.fcastel.raytracer.shader.Shader
+import com.fcastel.raytracer.shader.BlinnPhongShader
+import com.fcastel.raytracer.AccelerationStructure
+import com.fcastel.raytracer.Light
 
 class GeometryNode(name: String, primitive: Primitive, mat: Material, shader: Shader) extends SceneNode(name){
 	def this(name: String, primitive: Primitive){
