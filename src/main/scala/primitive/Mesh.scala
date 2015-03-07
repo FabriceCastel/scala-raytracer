@@ -8,7 +8,7 @@ class Mesh(vertices: List[Point3D], faces: List[List[Int]], UVMapping: List[Poin
 	require(faces.foldLeft(true)((base, cur) => base && (cur.length == 3)), "Mesh faces must specify exactly three vectors")
 
 	def this(vertices: List[Point3D], faces: List[List[Int]]){
-		this(vertices, faces, null, false)
+		this(vertices, faces, Nil, false)
 	}
 
 	def this(vertices: List[Point3D], faces: List[List[Int]], UVMapping: List[Point2D]){
