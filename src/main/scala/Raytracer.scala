@@ -1,20 +1,20 @@
-import swing._
-import event._
+package com.fcastel.raytracer
+
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
 import java.io.File
 
-import raytracer.Colour._
-import raytracer.node.SceneNode._
-import raytracer.node.FlattenedGeometryNode._
-import raytracer.Parser._
-import raytracer.Ray._
-import raytracer.RenderParameters._
-import raytracer.ShadeableIntersection._
-import raytracer.AccelerationStructure._
-import raytracer.Camera._
-import raytracer.vecmath._
-import raytracer.Light._
+import com.fcastel.raytracer.utils.Colour
+import com.fcastel.raytracer.node.SceneNode
+import com.fcastel.raytracer.node.FlattenedGeometryNode
+import com.fcastel.raytracer.utils.Parser
+import com.fcastel.raytracer.RenderParameters
+import com.fcastel.raytracer.ShadeableIntersection
+import com.fcastel.raytracer.AccelerationStructure
+import com.fcastel.raytracer.Camera
+import com.fcastel.raytracer.algebra._
+import com.fcastel.raytracer.Light
+import com.fcastel.raytracer.ui._
 
 object Raytracer extends App {
 	val OUTPUT_FOLDER = "renders/"
@@ -34,29 +34,14 @@ object Raytracer extends App {
 	val acceleratedScene = new AccelerationStructure(rp.cameraPos, scene.flatten())
 	val camera = new Camera()
 	
-
-	val panel = new Panel {
-		override def paint(g : Graphics2D){
-			super.paint(g)
-			g.drawImage(img, 0, 0, null)
-		}
-		preferredSize = new Dimension(rp.width, rp.height)
-	}
-
 	ImageIO.write(img, IMG_FORMAT, new File(imgFullName))
 
-	val frame = new MainFrame {
-		title = "Raytracer"
-		contents = panel
-		centerOnScreen
-	}
-
-	frame.open
+	val ui = new RenderWindow(rp, img)
 
 	var i = 0.0
 	var lastFrame = System.currentTimeMillis()
 	val spf = 1000 / 30
-	while(frame.showing){
+	while(ui.alive){
 		i += 0.04
 		val origin = new Point3D(0,0,0)
 		val camPos = new Point3D(100 * Math.sin(i),30,100 * Math.cos(i))
@@ -68,7 +53,7 @@ object Raytracer extends App {
 			val pixelColor = scene.intersect(rp, rays(x)(y)).shadeIntersection(acceleratedScene, lights)
 			img.setRGB(x, y, pixelColor.getRGB())
 		}
-		panel.repaint()
+		ui.update()
 		val newTime = System.currentTimeMillis()
 		val delay = spf - (newTime - lastFrame)
 		if(delay > 0) Thread.sleep(delay)

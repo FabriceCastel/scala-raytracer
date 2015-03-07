@@ -1,6 +1,6 @@
-package raytracer.Material
+package com.fcastel.raytracer
 
-import raytracer.Colour._
+import com.fcastel.raytracer.utils.Colour
 
 class Material(val kd: Colour, val ks: Colour, val shine: Double){
 	

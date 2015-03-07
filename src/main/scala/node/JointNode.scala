@@ -1,11 +1,8 @@
-package raytracer.node.JointNode
+package com.fcastel.raytracer.node
 
-import javax.vecmath.{Matrix4d}
+import com.fcastel.raytracer.algebra._
 
-import raytracer.node.SceneNode._
-import raytracer.node.FlattenedGeometryNode._
-
-class JointNode(name: String, trans: Matrix4d) extends SceneNode(name){
+class JointNode(name: String, trans: Matrix4D) extends SceneNode(name){
 	override def flatten(): List[FlattenedGeometryNode] = {
 		var fl = children.foldLeft(List[FlattenedGeometryNode]())
 			{(flatList, curNode) => flatList ::: curNode.flatten()}

@@ -1,15 +1,14 @@
-package raytracer.node.FlattenedGeometryNode
+package com.fcastel.raytracer.node
 
-import javax.vecmath.{Matrix4d}
 import java.awt.{Color}
 
-import raytracer.node.GeometryNode._
-import raytracer.ShadeableIntersection._
-import raytracer.RenderParameters._
-import raytracer.primitive.Primitive._
-import raytracer.Ray._
+import com.fcastel.raytracer.ShadeableIntersection
+import com.fcastel.raytracer.RenderParameters
+import com.fcastel.raytracer.primitive.Primitive
+import com.fcastel.raytracer.algebra.Ray
+import com.fcastel.raytracer.algebra._
 
-class FlattenedGeometryNode(name: String, primitive: Primitive, trans: Matrix4d) extends GeometryNode(name, primitive){
+class FlattenedGeometryNode(name: String, primitive: Primitive, trans: Matrix4D) extends GeometryNode(name, primitive){
 	
 	// intersect method needs to be overriden to calculate intersection WITH its trans
 	// matrix taken into account, unlike parent GeometryNode class
@@ -22,8 +21,8 @@ class FlattenedGeometryNode(name: String, primitive: Primitive, trans: Matrix4d)
 		true
 	}
 
-	def applyTransform(trans: Matrix4d): FlattenedGeometryNode = {
-		var updatedMatrix = new Matrix4d(trans)
+	def applyTransform(trans: Matrix4D): FlattenedGeometryNode = {
+		var updatedMatrix = trans
 		updatedMatrix.mul(trans)
 		val transformedNode = new FlattenedGeometryNode(name, primitive, updatedMatrix)
 		transformedNode

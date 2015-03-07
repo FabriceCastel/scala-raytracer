@@ -1,4 +1,4 @@
-package raytracer.vecmath
+package com.fcastel.raytracer.algebra
 
 import javax.vecmath.{Vector3d}
 import javax.vecmath.{Point3d}

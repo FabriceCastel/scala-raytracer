@@ -1,7 +1,7 @@
-package raytracer.Light
+package com.fcastel.raytracer
 
-import raytracer.Colour._
-import raytracer.vecmath._
+import com.fcastel.raytracer.utils.Colour
+import com.fcastel.raytracer.algebra._
 
 class Light(val col: Colour, val pos: Point3D){
 

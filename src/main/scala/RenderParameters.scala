@@ -1,6 +1,6 @@
-package raytracer.RenderParameters
+package com.fcastel.raytracer
 
-import raytracer.vecmath._
+import com.fcastel.raytracer.algebra._
 
 class RenderParameters(val width: Int, val height: Int, val cameraPos: Point3D, val cameraDir: Vector3D){
 	def this(){

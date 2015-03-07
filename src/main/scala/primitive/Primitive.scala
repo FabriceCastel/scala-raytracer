@@ -1,7 +1,7 @@
-package raytracer.primitive.Primitive
+package com.fcastel.raytracer.primitive
 
-import raytracer.Ray._
-import raytracer.BasicIntersection._
+import com.fcastel.raytracer.algebra.Ray
+import com.fcastel.raytracer.BasicIntersection
 
 abstract class Primitive(){
 	// base abstract class to be implemented for spheres, cones, cubes, mesh...

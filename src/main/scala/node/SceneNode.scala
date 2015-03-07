@@ -1,10 +1,9 @@
-package raytracer.node.SceneNode
+package com.fcastel.raytracer.node
 
-import raytracer.Colour._
-import raytracer.RenderParameters._
-import raytracer.ShadeableIntersection._
-import raytracer.node.FlattenedGeometryNode._
-import raytracer.Ray._
+import com.fcastel.raytracer.utils.Colour
+import com.fcastel.raytracer.RenderParameters
+import com.fcastel.raytracer.ShadeableIntersection
+import com.fcastel.raytracer.algebra.Ray
 
 class SceneNode(val name: String, val children: List[SceneNode]){
 	def this(name: String){
