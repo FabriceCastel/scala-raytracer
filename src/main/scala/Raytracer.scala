@@ -44,7 +44,7 @@ object Raytracer extends App {
 	while(ui.alive){
 		i += 0.04
 		val origin = new Point3D(0,0,0)
-		val camPos = new Point3D(100 * Math.sin(i),30,100 * Math.cos(i))
+		val camPos = new Point3D(100 * Math.sin(i),-100,100 * Math.cos(i))
 		val camDir = origin - camPos
 		val camUp = new Vector3D(0,1,0)
 		val curCam = new Camera(camPos, camDir, camUp, 50)
