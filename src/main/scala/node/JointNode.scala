@@ -6,6 +6,6 @@ class JointNode(name: String, trans: Matrix4D) extends SceneNode(name){
 	override def flatten(): List[FlattenedGeometryNode] = {
 		var fl = children.foldLeft(List[FlattenedGeometryNode]())
 			{(flatList, curNode) => flatList ::: curNode.flatten()}
-		fl.map({node => node.applyTransform(trans)})
+		fl.map({node => node.transform(trans)})
 	}
 }

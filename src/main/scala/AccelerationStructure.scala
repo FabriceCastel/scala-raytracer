@@ -1,15 +1,24 @@
 package com.fcastel.raytracer
 
-import javax.vecmath.{Point3d}
-import java.awt.{Color}
-
+import com.fcastel.raytracer.utils._
+import com.fcastel.raytracer.algebra._
 import com.fcastel.raytracer.node.FlattenedGeometryNode
 import com.fcastel.raytracer.algebra.Ray
 
-class AccelerationStructure(locus: Point3d, scene: List[FlattenedGeometryNode]){
-	def intersect(ray: Ray): Color = {
-		val col = new Color(0xff0f78f9)
-		col
+class AccelerationStructure(locus: Point3D, scene: List[FlattenedGeometryNode]){
+	def intersect(params: RenderParameters, ray: Ray): ShadeableIntersection = {
+		val col = new Colour(0xff000000)
+		val sinter = new ShadeableIntersection(0, false, (s, l) => {col})
+		if(scene.length > 0){
+			val hit = scene.map{e => e.intersect(params, ray)}.reduceLeft {
+				(base, cur) => {
+					if(cur.isValid && (!base.isValid || cur.t < base.t)) cur else base
+				}
+			}
+			if(!hit.isValid){
+				sinter
+			} else hit
+		} else sinter
 	}
 
 	// for shadow computations

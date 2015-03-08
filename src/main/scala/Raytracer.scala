@@ -31,8 +31,8 @@ object Raytracer extends App {
 	
 	val img = new BufferedImage(rp.width, rp.height, BufferedImage.TYPE_INT_ARGB)
 
-	val acceleratedScene = new AccelerationStructure(rp.cameraPos, scene.flatten())
 	val camera = new Camera()
+	val flatScene = scene.flatten()
 	
 	ImageIO.write(img, IMG_FORMAT, new File(imgFullName))
 
@@ -44,13 +44,14 @@ object Raytracer extends App {
 	while(ui.alive){
 		i += 0.04
 		val origin = new Point3D(0,0,0)
-		val camPos = new Point3D(100 * Math.sin(i),-100,100 * Math.cos(i))
+		val camPos = new Point3D(100 * Math.sin(i),80,100 * Math.cos(i))
+		val acceleratedScene = new AccelerationStructure(camPos, flatScene)
 		val camDir = origin - camPos
 		val camUp = new Vector3D(0,1,0)
 		val curCam = new Camera(camPos, camDir, camUp, 50)
 		val rays = curCam.generateRays(rp.width, rp.height)
 		for(x <- 0 to rp.width-1; y <- 0 to rp.height-1){
-			val pixelColor = scene.intersect(rp, rays(x)(y)).shadeIntersection(acceleratedScene, lights)
+			val pixelColor = acceleratedScene.intersect(rp, rays(x)(y)).shadeIntersection(acceleratedScene, lights)
 			img.setRGB(x, y, pixelColor.getRGB())
 		}
 		ui.update()

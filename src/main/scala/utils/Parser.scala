@@ -3,7 +3,7 @@ package com.fcastel.raytracer.utils
 import com.fcastel.raytracer.node.SceneNode
 import com.fcastel.raytracer.RenderParameters
 import com.fcastel.raytracer.primitive._
-import com.fcastel.raytracer.node.GeometryNode
+import com.fcastel.raytracer.node._
 import com.fcastel.raytracer.algebra._
 import com.fcastel.raytracer.Light
 
@@ -13,10 +13,14 @@ import com.fcastel.raytracer.Light
 class Parser(filename : String){
 	def getScene() : SceneNode = {
 		val scene = new SceneNode("Root Node")
-		val z = 0
+		val trans = new Matrix4D(1, 0, 0, 0,
+								0, 1, 0, 0,
+								0, 0, 1, 0,
+								0, 0, 0, 2)
+		val joint = new JointNode("J", trans)
 		val cube = new Cube(30)
 		val GN = new GeometryNode("Cube Node", cube)
-		scene.addChild(GN)
+		scene.addChild(joint.addChild(GN))
 	}
 
 	def getRenderParameters() : RenderParameters = {
