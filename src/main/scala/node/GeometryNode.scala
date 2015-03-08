@@ -17,7 +17,7 @@ class GeometryNode(name: String, primitive: Primitive, mat: Material, shader: Sh
 		this(name, primitive, new Material(new Colour(0xff2255ff), new Colour(0xffffffff), 50), new BlinnPhongShader())
 	}
 
-	override def intersect(params: RenderParameters, ray: Ray): ShadeableIntersection = {
+	def intersect(params: RenderParameters, ray: Ray): ShadeableIntersection = {
 		val primitiveIntersection = primitive.intersect(ray)
 		if(primitiveIntersection.isValid){
 			val col = new Colour(0xfff220b0)

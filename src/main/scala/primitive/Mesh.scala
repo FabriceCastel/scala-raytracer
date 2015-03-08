@@ -6,6 +6,9 @@ import com.fcastel.raytracer.algebra.Ray
 
 class Mesh(vertices: List[Point3D], faces: List[List[Int]], UVMapping: List[Point2D], hasUVMapping: Boolean) extends Primitive(){
 	require(faces.foldLeft(true)((base, cur) => base && (cur.length == 3)), "Mesh faces must specify exactly three vectors")
+	require(faces.foldLeft(true)((base, cur) => base &&
+		cur.foldLeft(true)((b, f) => b && (f < vertices.size))),
+		"Mesh face points to non-existent vertex")
 
 	def this(vertices: List[Point3D], faces: List[List[Int]]){
 		this(vertices, faces, Nil, false)
@@ -26,8 +29,7 @@ class Mesh(vertices: List[Point3D], faces: List[List[Int]], UVMapping: List[Poin
 		triangles.foldLeft(new BasicIntersection())((base, cur) => {
 			val curHit = cur.intersect(ray)
 			if(!base.isValid || (curHit.isValid && curHit.t < base.t)) curHit
-			else base
-			})
+			else base })
 	}
 
 	override def intersectFast(ray: Ray): Boolean = {
