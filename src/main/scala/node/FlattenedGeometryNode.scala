@@ -9,14 +9,15 @@ import com.fcastel.raytracer.algebra.Ray
 import com.fcastel.raytracer.algebra._
 
 class FlattenedGeometryNode(name: String, primitive: Primitive, trans: Matrix4D) extends GeometryNode(name, primitive){
-	val inv = new Matrix4D().invert(trans)
+	val inv = new Matrix4D()
+	inv.invert(trans)
 
 	// intersect method needs to be overriden to calculate intersection WITH its trans
 	// matrix taken into account, unlike parent GeometryNode class
 
 	override def intersect(params: RenderParameters, ray: Ray): ShadeableIntersection = {
-		val transformedRay = ray * trans
-		//println(trans.toString())
+		// is this even right?
+		val transformedRay = ray * inv
 		val tHit = super.intersect(params, transformedRay)
 		val t = tHit.t
 		val isValid = tHit.isValid
@@ -27,12 +28,10 @@ class FlattenedGeometryNode(name: String, primitive: Primitive, trans: Matrix4D)
 		true
 	}
 
-	def transform(trans: Matrix4D): FlattenedGeometryNode = {
+	def transform(newTrans: Matrix4D): FlattenedGeometryNode = {
 		var updatedMatrix = trans
-		updatedMatrix.mul(trans)
+		updatedMatrix.mul(newTrans)
 		val transformedNode = new FlattenedGeometryNode(name, primitive, updatedMatrix)
-		
-		println("TASASDASDASDAS")
 		transformedNode
 	}
 }

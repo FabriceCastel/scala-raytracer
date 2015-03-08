@@ -13,10 +13,7 @@ import com.fcastel.raytracer.Light
 class Parser(filename : String){
 	def getScene() : SceneNode = {
 		val scene = new SceneNode("Root Node")
-		val trans = new Matrix4D(1, 0, 0, 0,
-								0, 1, 0, 0,
-								0, 0, 1, 0,
-								0, 0, 0, 2)
+		val trans = new Matrix4D()
 		val joint = new JointNode("J", trans)
 		val cube = new Cube(30)
 		val GN = new GeometryNode("Cube Node", cube)

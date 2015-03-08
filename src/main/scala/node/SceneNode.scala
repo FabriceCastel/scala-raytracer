@@ -22,7 +22,7 @@ class SceneNode(val name: String, val children: List[SceneNode]){
 
 	def flatten(): List[FlattenedGeometryNode] = {
 		children.foldLeft(List[FlattenedGeometryNode]())
-			{(flatList, curNode) => println("FLATTEN:\n" + curNode.genString("")); flatList ::: curNode.flatten()}
+			{(flatList, curNode) => flatList ::: curNode.flatten()}
 	}
 
 	override def toString: String = {
