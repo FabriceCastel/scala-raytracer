@@ -35,7 +35,7 @@ class Parser(filename : String){
 	}
 
 	def getLights(): List[Light] = {
-		List(new Light(new Colour(0xffffffff), new Point3D(1000, -400, -700)),
-			new Light(new Colour(0xffffbb99), new Point3D(-1000, 500, 600)))
+		List(new Light(new Colour(0xffffffff), new Point3D(300, -400, -500)),
+			new Light(new Colour(0xffffbb99), new Point3D(-200, 240, 400)))
 	}
 }

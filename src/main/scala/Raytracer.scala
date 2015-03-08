@@ -41,6 +41,8 @@ object Raytracer extends App {
 	var i = 0.0
 	var lastFrame = System.currentTimeMillis()
 	val spf = 1000 / 30
+	var frame = 0
+	var avgtime = 0.0
 	while(ui.alive){
 		i += 0.04
 		val origin = new Point3D(0,0,0)
@@ -58,7 +60,9 @@ object Raytracer extends App {
 		val newTime = System.currentTimeMillis()
 		val delay = spf - (newTime - lastFrame)
 		if(delay > 0) Thread.sleep(delay)
-		println("Frame render time: " + (newTime - lastFrame) + "ms")
+		avgtime = ((avgtime * frame) + (newTime - lastFrame)) / (frame + 1)
+		frame = frame + 1
+		print("Avg frame render time: " + "%.2f".format(avgtime) + "ms         \r")
 		lastFrame = System.currentTimeMillis()
 	}
 }
