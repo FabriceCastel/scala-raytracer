@@ -1,5 +1,5 @@
 target/*
-renders/*
+renders/*.png
 project/*
 *.class
 *.DS_Store
