@@ -58,6 +58,7 @@ object Raytracer extends App {
 		val newTime = System.currentTimeMillis()
 		val delay = spf - (newTime - lastFrame)
 		if(delay > 0) Thread.sleep(delay)
+		println("Frame render time: " + (newTime - lastFrame) + "ms")
 		lastFrame = System.currentTimeMillis()
 	}
 }

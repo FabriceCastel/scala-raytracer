@@ -14,11 +14,20 @@ class Parser(filename : String){
 	def getScene() : SceneNode = {
 		val scene = new SceneNode("Root Node")
 		val trans = new Matrix4D()
-		val joint = new JointNode("J", trans)
-		val cube = new Cube(30)
-		val GN = new GeometryNode("Cube Node", cube)
-		scene.addChild(joint.addChild(GN))
+		var joint = new JointNode("J", trans)
+		for(x <- 0 to 10){
+			val tri = new Triangle(List(
+				new Point3D(r(), r(), r()),
+				new Point3D(r(), r(), r()),
+				new Point3D(r(), r(), r())))
+			val GN = new GeometryNode("triangle #" + x, tri)
+			joint = joint.addChild(GN)
+		}
+		scene.addChild(joint)
 	}
+
+	val siz = 120
+	def r(): Double = Math.random()*siz - siz/2.0
 
 	def getRenderParameters() : RenderParameters = {
 		val params = new RenderParameters()

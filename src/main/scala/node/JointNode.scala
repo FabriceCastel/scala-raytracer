@@ -13,7 +13,7 @@ class JointNode(name: String, children: List[SceneNode], trans: Matrix4D) extend
 		fl.map({node => node.transform(trans)})
 	}
 
-	override def addChild(node: SceneNode): SceneNode = {
+	override def addChild(node: SceneNode): JointNode = {
 		val updatedChildren = children :+ node
 		val updatedNode = new JointNode(name, updatedChildren, trans)
 		updatedNode
