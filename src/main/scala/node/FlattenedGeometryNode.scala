@@ -8,7 +8,7 @@ import com.fcastel.raytracer.primitive.Primitive
 import com.fcastel.raytracer.algebra.Ray
 import com.fcastel.raytracer.algebra._
 
-class FlattenedGeometryNode(name: String, primitive: Primitive, trans: Matrix4D) extends GeometryNode(name, primitive){
+class FlattenedGeometryNode(name: String, val primitive: Primitive, trans: Matrix4D) extends GeometryNode(name, primitive){
 	val inv = new Matrix4D()
 	inv.invert(trans)
 

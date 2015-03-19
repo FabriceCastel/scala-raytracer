@@ -7,7 +7,7 @@ import java.io.File
 import com.fcastel.raytracer.utils.Colour
 import com.fcastel.raytracer.node.SceneNode
 import com.fcastel.raytracer.node.FlattenedGeometryNode
-import com.fcastel.raytracer.utils.Parser
+import com.fcastel.raytracer.parser.Parser
 import com.fcastel.raytracer.RenderParameters
 import com.fcastel.raytracer.ShadeableIntersection
 import com.fcastel.raytracer.acceleration.AccelerationStructure
@@ -38,7 +38,6 @@ object Raytracer extends App {
 
 	var i = 0.0
 	var lastFrame = System.currentTimeMillis()
-	val spf = 1000 / 30
 	var frame = 0
 	var avgtime = 0.0
 	while(ui.alive){
@@ -54,14 +53,12 @@ object Raytracer extends App {
 		for(x <- 0 to rp.width-1; y <- 0 to rp.height-1){
 			val pixelColor = acceleratedScene.intersect(rp, rays(x)(y)).shadeIntersection(acceleratedScene, lights)
 			img.setRGB(x, y, pixelColor.getRGB())
+			ui.update()
 		}
-		ui.update()
 		val newTime = System.currentTimeMillis()
-		val delay = spf - (newTime - lastFrame)
-		if(delay > 0) Thread.sleep(delay)
 		avgtime = ((avgtime * frame) + (newTime - lastFrame)) / (frame + 1)
 		frame = frame + 1
-		print("Avg frame render time: " + "%.2f".format(avgtime) + "ms         \r")
+		print("Avg frame render time: " + "%.2f".format(avgtime) + "ms                   \r")
 		ImageIO.write(img, IMG_FORMAT, new File(OUTPUT_FOLDER + frame + "." + IMG_FORMAT))
 		lastFrame = System.currentTimeMillis()
 	}

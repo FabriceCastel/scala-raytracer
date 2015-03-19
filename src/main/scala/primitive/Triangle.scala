@@ -51,4 +51,8 @@ class Triangle(vertices: List[Point3D], uv: List[Point2D], hasUV: Boolean) exten
 			}
 		}
 	}
+
+	override def intersectFast(ray: Ray): Boolean = {
+		intersect(ray).isValid
+	}
 }

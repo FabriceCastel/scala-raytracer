@@ -1,4 +1,5 @@
 target/*
+src/target/*
 renders/*.png
 project/*
 *.class
