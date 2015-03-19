@@ -10,7 +10,7 @@ import com.fcastel.raytracer.node.FlattenedGeometryNode
 import com.fcastel.raytracer.utils.Parser
 import com.fcastel.raytracer.RenderParameters
 import com.fcastel.raytracer.ShadeableIntersection
-import com.fcastel.raytracer.AccelerationStructure
+import com.fcastel.raytracer.acceleration.AccelerationStructure
 import com.fcastel.raytracer.Camera
 import com.fcastel.raytracer.algebra._
 import com.fcastel.raytracer.Light
@@ -33,8 +33,6 @@ object Raytracer extends App {
 
 	val camera = new Camera()
 	val flatScene = scene.flatten()
-	
-	ImageIO.write(img, IMG_FORMAT, new File(imgFullName))
 
 	val ui = new RenderWindow(rp, img)
 
@@ -46,7 +44,8 @@ object Raytracer extends App {
 	while(ui.alive){
 		i += 0.04
 		val origin = new Point3D(0,0,0)
-		val camPos = new Point3D(100 * Math.sin(i),80,100 * Math.cos(i))
+		val dist = 10
+		val camPos = new Point3D(dist * Math.sin(i),2,dist * Math.cos(i))
 		val acceleratedScene = new AccelerationStructure(camPos, flatScene)
 		val camDir = origin - camPos
 		val camUp = new Vector3D(0,1,0)
@@ -63,6 +62,7 @@ object Raytracer extends App {
 		avgtime = ((avgtime * frame) + (newTime - lastFrame)) / (frame + 1)
 		frame = frame + 1
 		print("Avg frame render time: " + "%.2f".format(avgtime) + "ms         \r")
+		ImageIO.write(img, IMG_FORMAT, new File(OUTPUT_FOLDER + frame + "." + IMG_FORMAT))
 		lastFrame = System.currentTimeMillis()
 	}
 }
