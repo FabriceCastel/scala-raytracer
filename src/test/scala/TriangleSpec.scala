@@ -1,9 +1,8 @@
 import org.scalatest.FlatSpec
 
 import com.fcastel.raytracer.primitive.Triangle
-import com.fcastel.raytracer.Ray
 import com.fcastel.raytracer.BasicIntersection
-import com.fcastel.raytracer.vecmath._
+import com.fcastel.raytracer.algebra._
 
 class TriangleSpec extends FlatSpec {
 	val o = new Point3D(0,0,0)
