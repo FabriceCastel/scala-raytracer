@@ -9,7 +9,7 @@ import com.fcastel.raytracer.algebra._
 import com.fcastel.raytracer.Material
 import com.fcastel.raytracer.shader.Shader
 import com.fcastel.raytracer.shader.BlinnPhongShader
-import com.fcastel.raytracer.AccelerationStructure
+import com.fcastel.raytracer.acceleration.AccelerationStructure
 import com.fcastel.raytracer.Light
 
 class GeometryNode(name: String, primitive: Primitive, mat: Material, shader: Shader) extends SceneNode(name){

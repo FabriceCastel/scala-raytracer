@@ -1,7 +1,7 @@
 package com.fcastel.raytracer
 
 import com.fcastel.raytracer.utils.Colour
-import com.fcastel.raytracer.AccelerationStructure
+import com.fcastel.raytracer.acceleration.AccelerationStructure
 import com.fcastel.raytracer.Light
 import com.fcastel.raytracer.algebra._
 
