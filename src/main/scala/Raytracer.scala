@@ -7,7 +7,7 @@ import java.io.File
 import com.fcastel.raytracer.utils.Colour
 import com.fcastel.raytracer.node.SceneNode
 import com.fcastel.raytracer.node.FlattenedGeometryNode
-import com.fcastel.raytracer.utils.Parser
+import com.fcastel.raytracer.parser.Parser
 import com.fcastel.raytracer.RenderParameters
 import com.fcastel.raytracer.ShadeableIntersection
 import com.fcastel.raytracer.acceleration.AccelerationStructure
