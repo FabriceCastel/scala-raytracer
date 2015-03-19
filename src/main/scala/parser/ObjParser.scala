@@ -10,17 +10,16 @@ object ObjParser {
 	def getGeometryNode(file: String): GeometryNode = {
 		var vertices = List[Point3D]()
 		var faces = List[List[Int]]()
-		for(line <- Source.fromFile(file).getLines()){
+		for(line <- Source.fromFile(file).getLines){
 			val tok = line.split(" ")
 			if(!(tok.length < 4)){
-				if(tok(0).equals("v")){
-					vertices = vertices ::: List(new Point3D(tok(1).toDouble,tok(2).toDouble,tok(3).toDouble))
-				} else if(tok(0).equals("f")){
-					faces = List(tok(1).toInt - 1,tok(2).toInt - 1,tok(3).toInt - 1) :: faces
+				tok(0) match {
+					case "v" => vertices = vertices ::: List(new Point3D(tok(1).toDouble,tok(2).toDouble,tok(3).toDouble))
+					case "f" => faces = List(tok(1).toInt - 1,tok(2).toInt - 1,tok(3).toInt - 1) :: faces
 				}
 			}
 		}
 		val mesh = new Mesh(vertices, faces)
 		new GeometryNode(file, mesh)
-	}	
+	}
 }
