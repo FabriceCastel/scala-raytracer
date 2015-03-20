@@ -18,7 +18,7 @@ class Parser(filename : String){
 		val scene = new SceneNode("Root Node")
 		val trans = new Matrix4D()
 		var joint = new JointNode("J", trans)
-		val gn = ObjParser.getGeometryNode("data/obj-models/teapot.obj")
+		val gn = ObjParser.getGeometryNode("data/obj-models/dodecahedron.obj")
 		joint = joint.addChild(gn)
 		scene.addChild(joint)
 	}
