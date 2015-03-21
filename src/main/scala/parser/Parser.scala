@@ -18,7 +18,12 @@ class Parser(filename : String){
 		val scene = new SceneNode("Root Node")
 		val trans = new Matrix4D()
 		var joint = new JointNode("J", trans)
-		val gn = ObjParser.getGeometryNode("data/obj-models/dodecahedron.obj")
+		//val gn = ObjParser.getGeometryNode("data/obj-models/dodecahedron.obj")
+		val mesh = new Mesh(
+			List(new Point3D(-1, -1, 0), new Point3D(1, -1, 0), new Point3D(1, 1, 0), new Point3D(-1, 1, 0)),
+			List(List(0,1,2) ,List(2,3,0)),
+			List(new Point2D(1,0), new Point2D(0,0), new Point2D(0,1), new Point2D(1,1)))
+		val gn = new GeometryNode("Test plane", mesh)
 		joint = joint.addChild(gn)
 		scene.addChild(joint)
 	}
@@ -32,6 +37,6 @@ class Parser(filename : String){
 	}
 
 	def getLights(): List[Light] = {
-		List(new Light(new Colour(0xffffffff), new Point3D(3000, 4000, 100)))
+		List(new Light(new Colour(0xffffffff), new Point3D(300, 40, 100)))
 	}
 }
