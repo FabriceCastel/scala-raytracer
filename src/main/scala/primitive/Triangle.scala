@@ -38,18 +38,43 @@ class Triangle(vertices: List[Point3D], uv: List[Point2D], hasUV: Boolean) exten
 					else {
 						val hit = ray.p + ray.v*t;
 						if(hasUV){
-							val d0 = Math.abs((hit - vertices(0)).length)
-							val d1 = Math.abs((hit - vertices(1)).length)
-							val d2 = Math.abs((hit - vertices(2)).length)
-							val uvAvg = (uv(0)*d0 + uv(1)*d1 + uv(2)*d2) / (d0 + d1 + d2)
-							new BasicIntersection(hit, edge1 cross edge2, t, uvAvg)
+							// val d0 = Math.abs((hit - vertices(0)).length)
+							// val d1 = Math.abs((hit - vertices(1)).length)
+							// val d2 = Math.abs((hit - vertices(2)).length)
+							// val uvAvg = (uv(0)*d0 + uv(1)*d1 + uv(2)*d2) / (d0 + d1 + d2)
+							new BasicIntersection(hit, edge1 cross edge2, t, findUV(hit))
 						} else {
-							new BasicIntersection(hit, edge1 cross edge2, t)
+							new BasicIntersection(hit, edge1 cross edge2, t, new Point2D(0,0))
 						}
 					}
 				}
 			}
 		}
+	}
+
+	private def findUV(p: Point3D): Point2D = {
+	    val u = vertices(1) - vertices(0)
+	    val v = vertices(2) - vertices(0)
+	    val w = p - vertices(0)
+
+	    val vCrossW = v cross w
+	    val vCrossU = v cross u
+
+	    val uCrossW = u cross w
+	    val uCrossV = u cross v
+
+	    val denom = uCrossV.length();
+	    if(denom != 0){
+		    val b1 = vCrossW.length() / denom;
+		    val b2 = uCrossW.length() / denom;
+		    val b0 = 1.0 - b1 - b2
+
+			val fu = b0 * uv(0).x + b1 * uv(1).x + b2 * uv(2).x;
+			val fv = b0 * uv(0).y + b1 * uv(1).y + b2 * uv(2).y;
+		    new Point2D(fu, fv)
+	    } else {
+	 		new Point2D(0,0)   	
+	    }
 	}
 
 	override def intersectFast(ray: Ray): Boolean = {

@@ -4,11 +4,11 @@ import com.fcastel.raytracer.utils.Colour
 import com.fcastel.raytracer.algebra._
 import com.fcastel.raytracer.Light
 import com.fcastel.raytracer.acceleration.AccelerationStructure
-import com.fcastel.raytracer.Material
+import com.fcastel.raytracer.material.Material
 import com.fcastel.raytracer.BasicIntersection
 import com.fcastel.raytracer.algebra.Ray
 
-class BlinnPhongShader() extends Shader(){
+class BlinnPhongShader(shininess: Double) extends Shader(){
 	def apply(ray: Ray, inter: BasicIntersection, mat: Material)(scene: AccelerationStructure, lights: List[Light]): Colour = {
 		val ambient = new Colour(0xff252525)
 		lights.foldLeft(ambient)((base, elem) => {
@@ -24,7 +24,7 @@ class BlinnPhongShader() extends Shader(){
 			new Colour(0xff000000)
 		} else {
 			val sdn = Math.max(pointToLight dot inter.normal, 0.0)
-			val diffuse = mat.kd * sdn
+			val diffuse = mat.getKD(inter.uv) * sdn
 			val cosAngInsidence = inter.normal dot pointToLight
 			var halfAngle = (light.pos - inter.point) + (ray.p - inter.point)
 			val halfAngleLen = halfAngle.length()
@@ -34,7 +34,7 @@ class BlinnPhongShader() extends Shader(){
 			var blinnTerm = halfAngle dot inter.normal
 			if(blinnTerm < 0 || cosAngInsidence == 0.0) blinnTerm = 0.0;
 			else if(blinnTerm > 1) blinnTerm = 1.0;
-			diffuse + mat.ks * Math.pow(blinnTerm, mat.shine)
+			diffuse + mat.getKS(inter.uv) * Math.pow(blinnTerm, shininess)
 		}
 	}
 }

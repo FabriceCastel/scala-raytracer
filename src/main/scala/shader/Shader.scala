@@ -4,7 +4,7 @@ import com.fcastel.raytracer.utils.Colour
 import com.fcastel.raytracer.acceleration.AccelerationStructure
 import com.fcastel.raytracer.algebra._
 import com.fcastel.raytracer.Light
-import com.fcastel.raytracer.Material
+import com.fcastel.raytracer.material.Material
 import com.fcastel.raytracer.BasicIntersection
 import com.fcastel.raytracer.algebra.Ray
 
