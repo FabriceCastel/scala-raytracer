@@ -22,6 +22,7 @@ class Parser(filename : String){
 		val mesh = new Mesh(
 			List(new Point3D(-1, -1, 0), new Point3D(1, -1, 0), new Point3D(1, 1, 0), new Point3D(-1, 1, 0)),
 			List(List(0,1,2) ,List(2,3,0)),
+			Nil,
 			List(new Point2D(1,0), new Point2D(0,0), new Point2D(0,1), new Point2D(1,1)))
 		val gn = new GeometryNode("Test plane", mesh)
 		joint = joint.addChild(gn)

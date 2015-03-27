@@ -4,16 +4,11 @@ import com.fcastel.raytracer.algebra._
 import com.fcastel.raytracer.BasicIntersection
 import com.fcastel.raytracer.utils.Utils
 
-class Triangle(vertices: List[Point3D], uv: List[Point2D], hasUV: Boolean) extends Primitive(){
+class Triangle(vertices: List[Point3D], normals: List[Vector3D], uv: List[Point2D]) extends Primitive(){
 	require(vertices.length == 3, "Triangles must have three vertices")
 
 	def this(vertices: List[Point3D]){
-		this(vertices, null, false)
-	}
-
-	def this(vertices: List[Point3D], uv: List[Point2D]){
-		this(vertices, uv, true)
-		require(uv.length == 3, "Invalid UV parameters for triangle")
+		this(vertices, Nil, Nil)
 	}
 
 	override def intersect(ray: Ray): BasicIntersection = {
@@ -37,18 +32,28 @@ class Triangle(vertices: List[Point3D], uv: List[Point2D], hasUV: Boolean) exten
 					if(t < Utils.EPSILON) fail
 					else {
 						val hit = ray.p + ray.v*t;
-						if(hasUV){
-							// val d0 = Math.abs((hit - vertices(0)).length)
-							// val d1 = Math.abs((hit - vertices(1)).length)
-							// val d2 = Math.abs((hit - vertices(2)).length)
-							// val uvAvg = (uv(0)*d0 + uv(1)*d1 + uv(2)*d2) / (d0 + d1 + d2)
-							new BasicIntersection(hit, edge1 cross edge2, t, findUV(hit))
+						var defNormal = edge1 cross edge2
+						if(uv.length > 2){
+							new BasicIntersection(hit, getNormal(hit, defNormal), t, findUV(hit))
 						} else {
-							new BasicIntersection(hit, edge1 cross edge2, t, new Point2D(0,0))
+							new BasicIntersection(hit, getNormal(hit, defNormal), t, new Point2D(0,0))
 						}
 					}
 				}
 			}
+		}
+	}
+
+	private def getNormal(p: Point3D, n: Vector3D): Vector3D = {
+		if(normals.length < 3)
+			n
+		else {
+			val w1 = (p - vertices(0)).length
+			val w2 = (p - vertices(1)).length
+			val w3 = (p - vertices(2)).length
+			((normals(0) * w1) +
+			(normals(1) * w2) +
+			(normals(2) * w3)) * (1.0 / (w1 + w2 + w3))
 		}
 	}
 

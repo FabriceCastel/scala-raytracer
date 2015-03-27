@@ -7,14 +7,13 @@ import com.fcastel.raytracer.ShadeableIntersection
 import com.fcastel.raytracer.algebra.Ray
 import com.fcastel.raytracer.algebra._
 import com.fcastel.raytracer.material._
-import com.fcastel.raytracer.shader.Shader
-import com.fcastel.raytracer.shader.BlinnPhongShader
+import com.fcastel.raytracer.shader._
 import com.fcastel.raytracer.acceleration.AccelerationStructure
 import com.fcastel.raytracer.Light
 
 class GeometryNode(name: String, primitive: Primitive, mat: Material, shader: Shader) extends SceneNode(name){
 	def this(name: String, primitive: Primitive){
-		this(name, primitive, new ImageMaterial("data/textures/vapor.jpg"), new BlinnPhongShader(50))
+		this(name, primitive, new FlatMaterial(new Colour(255, 30, 255)), new BumpmapShader())
 	}
 
 	def intersect(params: RenderParameters, ray: Ray): ShadeableIntersection = {
