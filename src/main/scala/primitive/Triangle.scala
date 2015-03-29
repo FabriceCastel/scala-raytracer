@@ -4,11 +4,15 @@ import com.fcastel.raytracer.algebra._
 import com.fcastel.raytracer.BasicIntersection
 import com.fcastel.raytracer.utils.Utils
 
-class Triangle(vertices: List[Point3D], normals: List[Vector3D], uv: List[Point2D]) extends Primitive(){
+class Triangle(vertices: List[Point3D], uv: List[Point2D], normals: List[Vector3D]) extends Primitive(){
 	require(vertices.length == 3, "Triangles must have three vertices")
 
 	def this(vertices: List[Point3D]){
 		this(vertices, Nil, Nil)
+	}
+
+	def this(v1: Point3D, v2: Point3D, v3: Point3D){
+		this(List(v1, v2, v3))
 	}
 
 	override def intersect(ray: Ray): BasicIntersection = {
@@ -33,38 +37,22 @@ class Triangle(vertices: List[Point3D], normals: List[Vector3D], uv: List[Point2
 					else {
 						val hit = ray.p + ray.v*t;
 						var defNormal = edge1 cross edge2
-						if(uv.length > 2){
-							new BasicIntersection(hit, getNormal(hit, defNormal), t, findUV(hit))
-						} else {
-							new BasicIntersection(hit, getNormal(hit, defNormal), t, new Point2D(0,0))
-						}
+						val (iNorm, iUV) = interpolateNormalAndUV(hit, defNormal)
+						new BasicIntersection(hit, iNorm, t, iUV)
 					}
 				}
 			}
 		}
 	}
 
-	private def getNormal(p: Point3D, n: Vector3D): Vector3D = {
-		if(normals.length < 3)
-			n
-		else {
-			val w1 = (p - vertices(0)).length
-			val w2 = (p - vertices(1)).length
-			val w3 = (p - vertices(2)).length
-			((normals(0) * w1) +
-			(normals(1) * w2) +
-			(normals(2) * w3)) * (1.0 / (w1 + w2 + w3))
-		}
-	}
-
-	private def findUV(p: Point3D): Point2D = {
-	    val u = vertices(1) - vertices(0)
+	private def interpolateNormalAndUV(p: Point3D, defaultNormal: Vector3D): (Vector3D, Point2D) = {
+		// interpolate between the triangle vertices w/ baycentric coordinates
+		val u = vertices(1) - vertices(0)
 	    val v = vertices(2) - vertices(0)
 	    val w = p - vertices(0)
 
 	    val vCrossW = v cross w
 	    val vCrossU = v cross u
-
 	    val uCrossW = u cross w
 	    val uCrossV = u cross v
 
@@ -74,12 +62,17 @@ class Triangle(vertices: List[Point3D], normals: List[Vector3D], uv: List[Point2
 		    val b2 = uCrossW.length() / denom;
 		    val b0 = 1.0 - b1 - b2
 
-			val fu = b0 * uv(0).x + b1 * uv(1).x + b2 * uv(2).x;
-			val fv = b0 * uv(0).y + b1 * uv(1).y + b2 * uv(2).y;
-		    new Point2D(fu, fv)
-	    } else {
-	 		new Point2D(0,0)   	
-	    }
+			val fu = if(uv.length >= 2) b0 * uv(0).x + b1 * uv(1).x + b2 * uv(2).x else 0;
+			val fv = if(uv.length >= 2) b0 * uv(0).y + b1 * uv(1).y + b2 * uv(2).y else 0;
+			val fuv = new Point2D(Math.min(Math.max(0, fu), 1), Math.min(Math.max(0, fv), 1))
+
+			val fnorm = if(normals.length < 3) defaultNormal else {
+				(normals(0) * b0 + normals(1) * b1 + normals(2) * b2) * (1.0/3)
+			}
+			(fnorm, fuv)
+		} else {
+			(defaultNormal, new Point2D(0,0))
+		}
 	}
 
 	override def intersectFast(ray: Ray): Boolean = {
