@@ -35,9 +35,11 @@ object Raytracer extends App {
 	val flatScene = scene.flatten()
 
 	val ui = new RenderWindow(rp, img)
+	val statsUI = new StatisticsWindow(10)
 
 	var i = 0.0
 	var lastFrame = System.currentTimeMillis()
+	val startTime = lastFrame
 	var frame = 0
 	var avgtime = 0.0
 	while(ui.alive){
@@ -58,7 +60,11 @@ object Raytracer extends App {
 		val newTime = System.currentTimeMillis()
 		avgtime = ((avgtime * frame) + (newTime - lastFrame)) / (frame + 1)
 		frame = frame + 1
-		print("Avg frame render time: " + "%.2f".format(avgtime) + "ms                   \r")
+		var stats = List("Current frame: " + frame)
+		stats = stats ::: List("Avg frame render time: " + "%.2f".format(if(avgtime >= 1000) avgtime/1000.0 else avgtime) + (if(avgtime >= 1000) "s" else "ms"))
+		val trtime = newTime - startTime
+		stats = stats ::: List("Total running time: " + "%.2f".format(if(trtime >= 1000) trtime/1000.0 else trtime) + (if(trtime >= 1000) "s" else "ms"))
+		statsUI.update(stats)
 		ImageIO.write(img, IMG_FORMAT, new File(OUTPUT_FOLDER + frame + "." + IMG_FORMAT))
 		lastFrame = System.currentTimeMillis()
 	}
