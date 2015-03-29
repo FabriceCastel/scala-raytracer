@@ -7,8 +7,10 @@ import com.fcastel.raytracer.RenderParameters
 import com.fcastel.raytracer.primitive.Primitive
 import com.fcastel.raytracer.algebra.Ray
 import com.fcastel.raytracer.algebra._
+import com.fcastel.raytracer.material.Material
+import com.fcastel.raytracer.shader.Shader
 
-class FlattenedGeometryNode(name: String, val primitive: Primitive, trans: Matrix4D) extends GeometryNode(name, primitive){
+class FlattenedGeometryNode(name: String, val primitive: Primitive, mat: Material, shader: Shader, trans: Matrix4D) extends GeometryNode(name, primitive, mat, shader){
 	val inv = new Matrix4D()
 	inv.invert(trans)
 
@@ -31,7 +33,7 @@ class FlattenedGeometryNode(name: String, val primitive: Primitive, trans: Matri
 	def transform(newTrans: Matrix4D): FlattenedGeometryNode = {
 		var updatedMatrix = trans
 		updatedMatrix.mul(newTrans)
-		val transformedNode = new FlattenedGeometryNode(name, primitive, updatedMatrix)
+		val transformedNode = new FlattenedGeometryNode(name, primitive, mat, shader, updatedMatrix)
 		transformedNode
 	}
 }

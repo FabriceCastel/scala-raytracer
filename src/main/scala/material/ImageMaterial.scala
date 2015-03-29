@@ -15,7 +15,7 @@ class ImageMaterial(file: String, ks: Colour) extends Material(){
 	private val img = ImageIO.read(new File(file))
 
 	def getKD(uv: Point2D): Colour = {
-		val uidx = (img.getWidth() * uv.x).floor.toInt
+		val uidx = Math.min((img.getWidth() * uv.x).floor.toInt, img.getWidth() - 1)
 		val vidx = img.getHeight() - (img.getHeight() * uv.y).floor.toInt - 1
 		new Colour(img.getRGB(uidx, vidx))
 	}

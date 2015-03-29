@@ -12,6 +12,10 @@ import com.fcastel.raytracer.acceleration.AccelerationStructure
 import com.fcastel.raytracer.Light
 
 class GeometryNode(name: String, primitive: Primitive, mat: Material, shader: Shader) extends SceneNode(name){
+	def this(name: String, primitive: Primitive, mat: Material){
+		this(name, primitive, mat, new BlinnPhongShader(30))
+	}
+
 	def this(name: String, primitive: Primitive){
 		this(name, primitive, new FlatMaterial(new Colour(255, 30, 255)), new BumpmapShader())
 	}
@@ -31,7 +35,7 @@ class GeometryNode(name: String, primitive: Primitive, mat: Material, shader: Sh
 	override def flatten(): List[FlattenedGeometryNode] = {
 		var id = new Matrix4D()
 		id.setIdentity()
-		val flatNode = new FlattenedGeometryNode(name, primitive, id)
+		val flatNode = new FlattenedGeometryNode(name, primitive, mat, shader, id)
 		List(flatNode)
 	}
 
