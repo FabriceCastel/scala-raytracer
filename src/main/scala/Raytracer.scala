@@ -10,7 +10,7 @@ import com.fcastel.raytracer.node.FlattenedGeometryNode
 import com.fcastel.raytracer.parser.Parser
 import com.fcastel.raytracer.RenderParameters
 import com.fcastel.raytracer.ShadeableIntersection
-import com.fcastel.raytracer.acceleration.AccelerationStructure
+import com.fcastel.raytracer.acceleration._
 import com.fcastel.raytracer.Camera
 import com.fcastel.raytracer.algebra._
 import com.fcastel.raytracer.Light
@@ -41,13 +41,13 @@ object Raytracer extends App {
 	var lastFrame = System.currentTimeMillis()
 	val startTime = lastFrame
 	var frame = 0
+	val acceleratedScene = new KDTree(flatScene)
 	var avgtime = 0.0
 	while(ui.alive){
 		i += 0.04
 		val origin = new Point3D(0,0,0)
 		val dist = 4
 		val camPos = new Point3D(dist * Math.sin(i),2,dist * Math.cos(i))
-		val acceleratedScene = new AccelerationStructure(camPos, flatScene)
 		val camDir = origin - camPos
 		val camUp = new Vector3D(0,1,0)
 		val curCam = new Camera(camPos, camDir, camUp, 50)
