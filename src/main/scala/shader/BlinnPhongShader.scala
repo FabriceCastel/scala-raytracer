@@ -10,7 +10,7 @@ import com.fcastel.raytracer.algebra.Ray
 
 class BlinnPhongShader(shininess: Double) extends Shader(){
 	def apply(ray: Ray, inter: BasicIntersection, mat: Material)(scene: AccelerationStructure, lights: List[Light]): Colour = {
-		val ambient = new Colour(0xff252525)
+		val ambient = new Colour(0xff000000)
 		lights.foldLeft(ambient)((base, elem) => {
 			base + shade(ray, inter, mat, scene, elem)
 			})
@@ -34,7 +34,7 @@ class BlinnPhongShader(shininess: Double) extends Shader(){
 			var blinnTerm = halfAngle dot inter.normal
 			if(blinnTerm < 0 || cosAngInsidence == 0.0) blinnTerm = 0.0;
 			else if(blinnTerm > 1) blinnTerm = 1.0;
-			diffuse + mat.getKS(inter.uv) * Math.pow(blinnTerm, shininess)
+			diffuse + mat.getKS(inter.uv) * (if(shininess > 0) Math.pow(blinnTerm, shininess) else 0)
 		}
 	}
 }

@@ -13,7 +13,7 @@ import com.fcastel.raytracer.Light
 
 class GeometryNode(name: String, primitive: Primitive, mat: Material, shader: Shader) extends SceneNode(name){
 	def this(name: String, primitive: Primitive, mat: Material){
-		this(name, primitive, mat, new BlinnPhongShader(30))
+		this(name, primitive, mat, new BlinnPhongShader(2))
 	}
 
 	def this(name: String, primitive: Primitive){

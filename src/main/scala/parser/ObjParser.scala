@@ -7,6 +7,7 @@ import com.fcastel.raytracer.primitive.Mesh
 import com.fcastel.raytracer.primitive.Triangle
 import com.fcastel.raytracer.algebra._
 import com.fcastel.raytracer.material.ImageMaterial
+import com.fcastel.raytracer.utils.Colour
 
 object ObjParser {
 	def getGeometryNode(file: String): GeometryNode = {
@@ -20,7 +21,7 @@ object ObjParser {
 				case "v" => vertices = vertices ::: List(new Point3D(tok(1).toDouble,tok(2).toDouble,tok(3).toDouble))
 				case "f" => {
 					val triplet = 	List(tok(1), tok(2), tok(3))
-					val ftr = triplet.map(e => e.split("/+").map(e => e.toInt - 1))
+					val ftr = triplet.map(_.split("/+").map(_.toInt - 1))
 					if(ftr(1).length == 1){ // only geom verts
 						triangles = new Triangle(vertices(ftr(0)(0)), vertices(ftr(1)(0)), vertices(ftr(2)(0))) :: triangles
 					} else if(ftr(1).length == 2){ // only geom + normal verts
@@ -40,7 +41,7 @@ object ObjParser {
 			}
 		}
 		val mesh = new Mesh(triangles)
-		val material = new ImageMaterial("data/textures/sphere.jpg")
+		val material = new ImageMaterial("data/textures/sphere.jpg", new Colour(100, 100, 100))
 		new GeometryNode(file, mesh, material)
 	}
 }

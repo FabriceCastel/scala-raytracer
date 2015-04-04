@@ -21,8 +21,7 @@ class SceneNode(val name: String, val children: List[SceneNode]){
 	}
 
 	def flatten(): List[FlattenedGeometryNode] = {
-		children.foldLeft(List[FlattenedGeometryNode]())
-			{(flatList, curNode) => flatList ::: curNode.flatten()}
+		children.foldLeft(List[FlattenedGeometryNode]())(_ ::: _.flatten())
 	}
 
 	override def toString: String = {
@@ -30,6 +29,6 @@ class SceneNode(val name: String, val children: List[SceneNode]){
 	}
 
 	protected def genString(sp: String): String = {
-		children.foldLeft(sp + "- " + this.getClass.getSimpleName + ": " + name + "\n")((base, c) => base + c.genString(sp + "  "))
+		children.foldLeft(sp + "- " + this.getClass.getSimpleName + ": " + name + "\n")(_ + _.genString(sp + "  "))
 	}
 }
