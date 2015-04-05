@@ -20,4 +20,8 @@ class Sphere(radius: Double) extends Primitive(){
 	override def intersectFast(ray: Ray): Boolean = {
 		false
 	}
+
+	def getBoundingBox(): (Point3D, Point3D) = {
+		throw new Exception("getBoundingBox unimplemented")
+	}
 }

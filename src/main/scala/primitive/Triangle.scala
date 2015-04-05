@@ -15,10 +15,12 @@ class Triangle(vertices: List[Point3D], uv: List[Point2D], normals: List[Vector3
 		this(List(v1, v2, v3))
 	}
 
+	private val fail = new BasicIntersection()
+	private val edge1 = vertices(1) - vertices(0)
+	private val edge2 = vertices(2) - vertices(0)
+	private val norm = edge1 cross edge2
+
 	override def intersect(ray: Ray): BasicIntersection = {
-		val fail = new BasicIntersection()
-		val edge1 = vertices(1) - vertices(0)
-		val edge2 = vertices(2) - vertices(0)
 		val P = ray.v cross edge2
 		val determinant = edge1 dot P
 		if(determinant > -Utils.EPSILON && determinant < Utils.EPSILON) fail
@@ -47,14 +49,12 @@ class Triangle(vertices: List[Point3D], uv: List[Point2D], normals: List[Vector3
 
 	private def interpolateNormalAndUV(p: Point3D, defaultNormal: Vector3D): (Vector3D, Point2D) = {
 		// interpolate between the triangle vertices w/ baycentric coordinates
-		val u = vertices(1) - vertices(0)
-	    val v = vertices(2) - vertices(0)
 	    val w = p - vertices(0)
 
-	    val vCrossW = v cross w
-	    val vCrossU = v cross u
-	    val uCrossW = u cross w
-	    val uCrossV = u cross v
+	    val vCrossW = edge2 cross w
+	    val vCrossU = edge2 cross edge1
+	    val uCrossW = edge1 cross w
+	    val uCrossV = edge1 cross edge2
 
 	    val denom = uCrossV.length();
 	    if(denom != 0){
@@ -77,5 +77,15 @@ class Triangle(vertices: List[Point3D], uv: List[Point2D], normals: List[Vector3
 
 	override def intersectFast(ray: Ray): Boolean = {
 		intersect(ray).isValid
+	}
+
+	// returns lower & upper points for xyz vals
+	def getBoundingBox(): (Point3D, Point3D) = {
+		(vertices.reduce((b, e) => {
+			new Point3D(Math.min(b.x, e.x), Math.min(b.y, e.y), Math.min(b.z, e.z))
+			}),
+		vertices.reduce((b, e) => {
+			new Point3D(Math.max(b.x, e.x), Math.max(b.y, e.y), Math.max(b.z, e.z))
+			}))
 	}
 }

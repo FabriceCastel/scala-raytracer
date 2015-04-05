@@ -4,7 +4,7 @@ import com.fcastel.raytracer.algebra._
 import com.fcastel.raytracer.BasicIntersection
 import com.fcastel.raytracer.algebra.Ray
 
-class Mesh(triangles: List[Triangle]) extends Primitive(){
+class Mesh(val triangles: List[Triangle]) extends Primitive(){
 	def this(vertices: List[Point3D], faces: List[List[Int]], normals: List[Vector3D], UVMapping: List[Point2D]){
 		this({
 			faces.map(face => {
@@ -34,6 +34,18 @@ class Mesh(triangles: List[Triangle]) extends Primitive(){
 	}
 
 	override def intersectFast(ray: Ray): Boolean = {
+		for(tri <- triangles){
+			if(tri.intersectFast(ray)) return true
+		}
 		false
+	}
+
+	def getBoundingBox(): (Point3D, Point3D) = {
+		val init = triangles(0).getBoundingBox()
+		triangles.foldLeft(init)((b, elem) => {
+			val e = elem.getBoundingBox()
+			(new Point3D(Math.min(b._1.x, e._1.x), Math.min(b._1.y, e._1.y), Math.min(b._1.z, e._1.z)),
+			 new Point3D(Math.max(b._2.x, e._2.x), Math.max(b._2.y, e._2.y), Math.max(b._2.z, e._2.z)))
+			})
 	}
 }
