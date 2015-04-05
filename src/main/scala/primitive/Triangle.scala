@@ -18,6 +18,7 @@ class Triangle(vertices: List[Point3D], uv: List[Point2D], normals: List[Vector3
 	private val fail = new BasicIntersection()
 	private val edge1 = vertices(1) - vertices(0)
 	private val edge2 = vertices(2) - vertices(0)
+	private val norm = edge1 cross edge2
 
 	override def intersect(ray: Ray): BasicIntersection = {
 		val P = ray.v cross edge2

@@ -4,7 +4,7 @@ import com.fcastel.raytracer.algebra._
 import com.fcastel.raytracer.BasicIntersection
 import com.fcastel.raytracer.algebra.Ray
 
-class Mesh(triangles: List[Triangle]) extends Primitive(){
+class Mesh(val triangles: List[Triangle]) extends Primitive(){
 	def this(vertices: List[Point3D], faces: List[List[Int]], normals: List[Vector3D], UVMapping: List[Point2D]){
 		this({
 			faces.map(face => {
@@ -34,6 +34,9 @@ class Mesh(triangles: List[Triangle]) extends Primitive(){
 	}
 
 	override def intersectFast(ray: Ray): Boolean = {
+		for(tri <- triangles){
+			if(tri.intersectFast(ray)) return true
+		}
 		false
 	}
 }
