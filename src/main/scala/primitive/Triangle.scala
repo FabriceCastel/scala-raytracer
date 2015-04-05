@@ -78,4 +78,14 @@ class Triangle(vertices: List[Point3D], uv: List[Point2D], normals: List[Vector3
 	override def intersectFast(ray: Ray): Boolean = {
 		intersect(ray).isValid
 	}
+
+	// returns lower & upper points for xyz vals
+	def getBoundingBox(): (Point3D, Point3D) = {
+		(vertices.reduce((b, e) => {
+			new Point3D(Math.min(b.x, e.x), Math.min(b.y, e.y), Math.min(b.z, e.z))
+			}),
+		vertices.reduce((b, e) => {
+			new Point3D(Math.max(b.x, e.x), Math.max(b.y, e.y), Math.max(b.z, e.z))
+			}))
+	}
 }

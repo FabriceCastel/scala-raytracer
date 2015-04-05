@@ -39,4 +39,13 @@ class Mesh(val triangles: List[Triangle]) extends Primitive(){
 		}
 		false
 	}
+
+	def getBoundingBox(): (Point3D, Point3D) = {
+		val init = triangles(0).getBoundingBox()
+		triangles.foldLeft(init)((b, elem) => {
+			val e = elem.getBoundingBox()
+			(new Point3D(Math.min(b._1.x, e._1.x), Math.min(b._1.y, e._1.y), Math.min(b._1.z, e._1.z)),
+			 new Point3D(Math.max(b._2.x, e._2.x), Math.max(b._2.y, e._2.y), Math.max(b._2.z, e._2.z)))
+			})
+	}
 }

@@ -36,4 +36,9 @@ class FlattenedGeometryNode(name: String, val primitive: Primitive, mat: Materia
 		val transformedNode = new FlattenedGeometryNode(name, primitive, mat, shader, updatedMatrix)
 		transformedNode
 	}
+
+	// returns lower & upper points for xyz vals
+	def getBoundingBox(): (Point3D, Point3D) = {
+		primitive.getBoundingBox()
+	}
 }
