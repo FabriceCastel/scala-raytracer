@@ -31,7 +31,7 @@ object Raytracer extends App {
 	val lights = parser.getLights()
 	
 	val img = new BufferedImage(rp.width, rp.height, BufferedImage.TYPE_INT_ARGB)
-	val postFilter = new GreyscaleFilter();
+	val postFilter = new FXAAFilter();
 
 	val camera = new Camera()
 	val flatScene = scene.flatten()
