@@ -15,6 +15,7 @@ import com.fcastel.raytracer.Camera
 import com.fcastel.raytracer.algebra._
 import com.fcastel.raytracer.Light
 import com.fcastel.raytracer.ui._
+import com.fcastel.raytracer.postfilter._
 
 object Raytracer extends App {
 	val OUTPUT_FOLDER = "renders/"
@@ -30,6 +31,7 @@ object Raytracer extends App {
 	val lights = parser.getLights()
 	
 	val img = new BufferedImage(rp.width, rp.height, BufferedImage.TYPE_INT_ARGB)
+	val postFilter = new GreyscaleFilter();
 
 	val camera = new Camera()
 	val flatScene = scene.flatten()
@@ -53,10 +55,11 @@ object Raytracer extends App {
 		val curCam = new Camera(camPos, camDir, camUp, 50)
 		val rays = curCam.generateRays(rp.width, rp.height)
 		for(x <- 0 to rp.width-1; y <- 0 to rp.height-1){
-			val pixelColor = acceleratedScene.intersect(rp, rays(x)(y)).shadeIntersection(acceleratedScene, lights)
-			img.setRGB(x, y, pixelColor.getRGB())
-			ui.update()
+			val pixel = acceleratedScene.intersect(rp, rays(x)(y))
+			img.setRGB(x, y, pixel.shadeIntersection(acceleratedScene, lights).getRGB())
 		}
+		postFilter.apply(img)
+		ui.update()
 		val newTime = System.currentTimeMillis()
 		avgtime = ((avgtime * frame) + (newTime - lastFrame)) / (frame + 1)
 		frame = frame + 1
